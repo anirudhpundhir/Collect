@@ -1,23 +1,24 @@
 package controller;
 
-
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-//@SpringBootTest(classes = controller.CollectMainApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SampleControllerTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(classes = CollectMainApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class SampleControllerTest {
 
     @Autowired
     private TestRestTemplate template;
 
     @Test
-    public void hello_ok() throws Exception {
+    void helloReturnsGreeting() {
         ResponseEntity<String> response = template.getForEntity("/", String.class);
-        Assertions.assertThat(response.getBody()).isEqualTo("Hello World, Spring Boot!");
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo("Hello World, Spring Boot!");
     }
-
 }
